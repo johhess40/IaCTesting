@@ -21,6 +21,13 @@ steps:
     name: mytfvars
     inputs:
       secureFile: 'terraform.tfvars'
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(mytfvars.secureFilePath)'
+      Contents: '**'
+      TargetFolder: '$(Agent.BuildDirectory)'
+  
   - task: TerraformInstaller@0
     inputs:
       terraformVersion: 'latest'
