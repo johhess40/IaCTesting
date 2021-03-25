@@ -48,3 +48,8 @@ steps:
       secureVarsFile: 'terraform.tfvars'
       allowTelemetryCollection: true
       publishPlanResults: 'webappplan'
+
+  - task: DeleteFiles@1
+    inputs:
+      SourceFolder: '$(Agent.BuildDirectory)'
+      Contents: '**'
