@@ -18,6 +18,7 @@ steps:
       RunAsPreJob: true
   
   - task: DownloadSecureFile@1
+    name: mytfvars
     inputs:
       secureFile: 'terraform.tfvars'
   - task: TerraformInstaller@0
@@ -37,6 +38,6 @@ steps:
     inputs:
       command: 'plan'
       environmentServiceName: 'TerraformConnect'
-      secureVarsFile: '$(Agent.TempDirectory)/terraform.tvfars'
+      secureVarsFile: '$(mytfvars.secureFilePath)'
       allowTelemetryCollection: true
       publishPlanResults: 'webappplan'
