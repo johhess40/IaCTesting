@@ -37,6 +37,6 @@ steps:
     inputs:
       command: 'plan'
       environmentServiceName: 'TerraformConnect'
-      secureVarsFile: 'terraform.tvfars'
+      secureVarsFile: '$(Agent.TempDirectory)/terraform.tvfars'
       allowTelemetryCollection: true
       publishPlanResults: 'webappplan'
