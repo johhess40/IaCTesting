@@ -1,7 +1,7 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# This is a pipeline for deploying infrastructure with Terraform
+# This pipeline will also be used to compile code and deploy a web app to resources created
+# by Terraform
+# Keep it secret....keep it safe
 
 trigger:
 - main
@@ -19,3 +19,14 @@ steps:
   - task: TerraformInstaller@0
     inputs:
       terraformVersion: 'latest'
+  - task: TerraformCLI@0
+    inputs:
+        command: 'init'
+        secureVarsFile: 'terraform.tfvars'
+        backendType: 'azurerm'
+        backendServiceArm: 'TerraformConnect'
+        backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
+        backendAzureRmStorageAccountName: 'terrabackenddev'
+        backendAzureRmContainerName: 'terrabackend'
+        backendAzureRmKey: 'dev.terraform.tfstate'
+        allowTelemetryCollection: true  
