@@ -22,7 +22,6 @@ steps:
   - task: TerraformCLI@0
     inputs:
         command: 'init'
-        secureVarsFile: 'terraform.tfvars'
         backendType: 'azurerm'
         backendServiceArm: 'TerraformConnect'
         backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
