@@ -29,3 +29,10 @@ steps:
         backendAzureRmContainerName: 'terrabackend'
         backendAzureRmKey: 'dev.terraform.tfstate'
         allowTelemetryCollection: true  
+  - task: TerraformCLI@0
+    inputs:
+      command: 'plan'
+      environmentServiceName: 'TerraformConnect'
+      secureVarsFile: 'terraform.tvfars'
+      allowTelemetryCollection: true
+      publishPlanResults: 'webappplan'
