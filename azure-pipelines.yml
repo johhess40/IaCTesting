@@ -20,19 +20,19 @@ steps:
   - task: DownloadSecureFile@1
     inputs:
       secureFile: 'terraform.tfvars'
-  # - task: TerraformInstaller@0
-  #   inputs:
-  #     terraformVersion: 'latest'
-  # - task: TerraformCLI@0
-  #   inputs:
-  #       command: 'init'
-  #       backendType: 'azurerm'
-  #       backendServiceArm: 'TerraformConnect'
-  #       backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
-  #       backendAzureRmStorageAccountName: 'terrabackenddev'
-  #       backendAzureRmContainerName: 'terrabackend'
-  #       backendAzureRmKey: 'dev.terraform.tfstate'
-  #       allowTelemetryCollection: true  
+  - task: TerraformInstaller@0
+    inputs:
+      terraformVersion: 'latest'
+  - task: TerraformCLI@0
+    inputs:
+        command: 'init'
+        backendType: 'azurerm'
+        backendServiceArm: 'TerraformConnect'
+        backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
+        backendAzureRmStorageAccountName: 'terrabackenddev'
+        backendAzureRmContainerName: 'terrabackend'
+        backendAzureRmKey: 'dev.terraform.tfstate'
+        allowTelemetryCollection: true  
   # - task: TerraformCLI@0
   #   inputs:
   #     command: 'plan'
