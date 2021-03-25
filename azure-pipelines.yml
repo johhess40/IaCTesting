@@ -15,7 +15,7 @@ steps:
       azureSubscription: 'TerraformConnect'
       KeyVaultName: 'webapp-kv-westus2'
       SecretsFilter: '*'
-      RunAsPreJob: false
+      RunAsPreJob: true
   - task: TerraformInstaller@0
     inputs:
       terraformVersion: 'latest'
