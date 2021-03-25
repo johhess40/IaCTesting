@@ -16,6 +16,9 @@ steps:
       KeyVaultName: 'webapp-kv-westus2'
       SecretsFilter: '*'
       RunAsPreJob: true
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: 'terraform.tfvars'
   - task: TerraformInstaller@0
     inputs:
       terraformVersion: 'latest'
