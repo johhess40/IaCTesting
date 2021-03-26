@@ -50,6 +50,11 @@ steps:
       allowTelemetryCollection: true
       publishPlanResults: 'webappplan'
 
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'dev'
+      publishLocation: 'Container'
   - task: DeleteFiles@1
     inputs:
       SourceFolder: '$(Agent.BuildDirectory)'
