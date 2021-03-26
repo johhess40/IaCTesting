@@ -11,6 +11,7 @@ variable "resource_tags" {
     Environment = string
     Location    = string
     Owner       = string
+    Tool        = string
   })
   description = "Tags for ADO demo web app"
 }

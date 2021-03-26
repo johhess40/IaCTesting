@@ -1,6 +1,6 @@
 terraform {
   backend "azurerm" {
-    resource_group_name = "webapp-terraconcept-westus2"
+    resource_group_name  = "webapp-terraconcept-westus2"
     storage_account_name = "terrabackenddev"
     container_name       = "terrabackend"
     key                  = "dev.terraform.tfstate"
@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "azurerm" {
-    features{}
+  features {}
 }
 ############################
 #create a new resource group
@@ -16,5 +16,5 @@ provider "azurerm" {
 resource "azurerm_resource_group" "webRG" {
   name     = var.resource_groups.webdev.name
   location = var.resource_groups.webdev.location
-  tags = var.resource_tags
+  tags     = var.resource_tags
 }
