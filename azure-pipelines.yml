@@ -52,7 +52,7 @@ steps:
 
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      PathtoPublish: '$(Agent.BuildDirectory)'
       ArtifactName: 'dev'
       publishLocation: 'Container'
   - task: DeleteFiles@1
