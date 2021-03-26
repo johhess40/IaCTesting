@@ -49,14 +49,6 @@ steps:
       commandOptions: '-out devplan'
       allowTelemetryCollection: true
       publishPlanResults: 'webappplan'
-  
-  - task: TerraformCLI@0
-    inputs:
-      command: 'apply'
-      environmentServiceName: 'TerraformConnect'
-      secureVarsFile: 'terraform.tfvars'
-      commandOptions: 'devplan'
-      allowTelemetryCollection: true
 
   - task: DeleteFiles@1
     inputs:
