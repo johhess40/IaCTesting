@@ -41,4 +41,8 @@ resource "azurerm_app_service" "appServAlpha" {
   site_config {
     linux_fx_version = var.dev_app_service.linux_fx_version
   }
+
+  depends_on = [
+    azurerm_app_service_plan.appPlanAlpha
+  ]
 }
