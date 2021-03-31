@@ -18,3 +18,26 @@ resource "azurerm_resource_group" "webRG" {
   location = var.resource_groups.webdev.location
   tags     = var.resource_tags
 }
+
+resource "azurerm_app_service_plan" "appPlanAlpha" {
+  name                = var.app_service_plan.name
+  location            = var.resource_groups.webdev.location
+  resource_group_name = var.resource_groups.webdev.name
+  kind                = var.app_service_plan.kind
+
+  sku {
+    tier = var.app_service_plan_sku.tier
+    size = var.app_service_plan_sku.size
+  }
+}
+
+resource "azurerm_app_service" "appServAlpha" {
+  name                = var.dev_app_service.name
+  location            = var.resource_groups.webdev.location
+  resource_group_name = var.resource_groups.webdev.name
+  app_service_plan_id = azurerm_app_service_plan.appPlanAlpha.id
+
+  site_config {
+    linux_fx_version = var.dev_app_service.linux_fx_version
+  }
+}
