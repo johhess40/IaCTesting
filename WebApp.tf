@@ -24,6 +24,7 @@ resource "azurerm_app_service_plan" "appPlanAlpha" {
   location            = var.resource_groups.webdev.location
   resource_group_name = var.resource_groups.webdev.name
   kind                = var.app_service_plan.kind
+  reserved = true
 
   sku {
     tier = var.app_service_plan_sku.tier
