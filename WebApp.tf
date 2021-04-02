@@ -30,7 +30,12 @@ resource "azurerm_app_service_plan" "appPlanAlpha" {
     tier = var.app_service_plan_sku.tier
     size = var.app_service_plan_sku.size
   }
+
+  depends_on = [
+    azurerm_app_service_plan.appPlanAlpha
+  ]
 }
+
 
 resource "azurerm_app_service" "appServAlpha" {
   name                = var.dev_app_service.name
