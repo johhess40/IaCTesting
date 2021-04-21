@@ -32,7 +32,7 @@ variable "app_service_plan_sku" {
 
 variable "dev_app_service" {
   type = object({
-    name             = string
-    linux_fx_version = string
+    name                     = string
+    dotnet_framework_version = string
   })
 }

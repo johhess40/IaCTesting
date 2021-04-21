@@ -45,7 +45,7 @@ resource "azurerm_app_service" "appServAlpha" {
   app_service_plan_id = azurerm_app_service_plan.appPlanAlpha.id
 
   site_config {
-    dotnet_framework_version = var.dev_app_service.linux_fx_version
+    dotnet_framework_version = var.dev_app_service.dotnet_framework_version
   }
 
   depends_on = [
