@@ -31,6 +31,8 @@ resource "azurerm_app_service_plan" "appPlanAlpha" {
     size = var.app_service_plan_sku.size
   }
 
+  tags     = var.resource_tags
+  
   depends_on = [
     azurerm_resource_group.webRG
   ]
