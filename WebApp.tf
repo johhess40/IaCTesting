@@ -31,8 +31,8 @@ resource "azurerm_app_service_plan" "appPlanAlpha" {
     size = var.app_service_plan_sku.size
   }
 
-  tags     = var.resource_tags
-  
+  tags = var.resource_tags
+
   depends_on = [
     azurerm_resource_group.webRG
   ]
@@ -47,10 +47,12 @@ resource "azurerm_app_service" "appServAlpha" {
   app_service_plan_id = azurerm_app_service_plan.appPlanAlpha.id
 
   site_config {
-    http2_enabled = true
-    always_on = false
+    http2_enabled             = true
+    always_on                 = false
     use_32_bit_worker_process = true
   }
+
+  tags = var.resource_tags
 
   depends_on = [
     azurerm_app_service_plan.appPlanAlpha
