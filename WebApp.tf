@@ -24,7 +24,7 @@ resource "azurerm_app_service_plan" "appPlanAlpha" {
   location            = var.resource_groups.webdev.location
   resource_group_name = var.resource_groups.webdev.name
   kind                = var.app_service_plan.kind
-  reserved = true
+  reserved            = true
 
   sku {
     tier = var.app_service_plan_sku.tier
@@ -45,7 +45,7 @@ resource "azurerm_app_service" "appServAlpha" {
   app_service_plan_id = azurerm_app_service_plan.appPlanAlpha.id
 
   site_config {
-    linux_fx_version = var.dev_app_service.linux_fx_version
+    dotnet_framework_version = var.dev_app_service.linux_fx_version
   }
 
   depends_on = [
