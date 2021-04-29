@@ -121,9 +121,9 @@ stages:
           
           
 
-          # - task: TerraformInstaller@0
-          #   inputs:
-          #     terraformVersion: 'latest'
+          - task: TerraformInstaller@0
+            inputs:
+              terraformVersion: 'latest'
 
           - task: TerraformCLI@0
             inputs:
@@ -136,6 +136,8 @@ stages:
               backendAzureRmContainerName: 'terrabackend'
               backendAzureRmKey: 'dev.terraform.tfstate'
               allowTelemetryCollection: true
+              
+              
           # - task: TerraformCLI@0
           #   inputs:
           #       command: 'apply'
