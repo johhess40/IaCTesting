@@ -112,7 +112,7 @@ stages:
           
           - task: CopyFiles@2
             inputs:
-              SourceFolder: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s'
+              SourceFolder: '$(System.DefaultWorkingDirectory)'
               Contents: |
                 '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/devplan'
                 '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/variables.tf'
