@@ -89,27 +89,32 @@ stages:
     displayName: Release to test landing Landing Zone
     dependsOn: Build_And_Test
     jobs:
-      - job: ReleaseDev
+      - deployment: ReleaseDev
         displayName: Release to test Landing Zone
         pool: 
           vmImage: ubuntu-latest
-        steps:
-            ##Not cloning the repo
-          - checkout: none
+        environment: 'Dev'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: none
 
-          - task: DownloadBuildArtifacts@0
-            inputs:
-              buildType: 'current'
-              downloadType: 'single'
-              artifactName: '$(Build.BuildId)-tfplan'
-              downloadPath: '$(System.DefaultWorkingDirectory)'
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                    buildType: 'current'
+                    downloadType: 'single'
+                    artifactName: '$(Build.BuildId)-tfplan'
+                    downloadPath: '$(System.DefaultWorkingDirectory)' 
 
-          - task: ExtractFiles@1
-            inputs:
-                archiveFilePatterns: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan/$(Build.BuildId)-tfplan.zip'
-                destinationFolder: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan'
-                cleanDestinationFolder: false
-                overwriteExistingFiles: false
+          
+
+                - task: ExtractFiles@1
+                  inputs:
+                    archiveFilePatterns: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan/$(Build.BuildId)-tfplan.zip'
+                    destinationFolder: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan'
+                    cleanDestinationFolder: false
+                    overwriteExistingFiles: false
           
           # - task: CopyFiles@2
           #   inputs:
@@ -122,30 +127,30 @@ stages:
           
           
 
-          - task: TerraformInstaller@0
-            inputs:
-              terraformVersion: 'latest'
+                - task: TerraformInstaller@0
+                  inputs:
+                    terraformVersion: 'latest'
 
-          - task: TerraformCLI@0
-            inputs:
-              command: 'init'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan/1/s'
-              backendType: 'azurerm'
-              backendServiceArm: 'TerraformConnect'
-              backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
-              backendAzureRmStorageAccountName: 'terrabackenddev'
-              backendAzureRmContainerName: 'terrabackend'
-              backendAzureRmKey: 'dev.terraform.tfstate'
-              allowTelemetryCollection: true
+                - task: TerraformCLI@0
+                  inputs:
+                    command: 'init'
+                    workingDirectory: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan/1/s'
+                    backendType: 'azurerm'
+                    backendServiceArm: 'TerraformConnect'
+                    backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
+                    backendAzureRmStorageAccountName: 'terrabackenddev'
+                    backendAzureRmContainerName: 'terrabackend'
+                    backendAzureRmKey: 'dev.terraform.tfstate'
+                    allowTelemetryCollection: true
               
               
-          - task: TerraformCLI@0
-            inputs:
-                command: 'apply'
-                workingDirectory: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan/1/s'
-                environmentServiceName: 'TerraformConnect'
-                commandOptions: 'devplan'
-                allowTelemetryCollection: true
+                - task: TerraformCLI@0
+                  inputs:
+                    command: 'apply'
+                    workingDirectory: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan/1/s'
+                    environmentServiceName: 'TerraformConnect'
+                    commandOptions: 'devplan'
+                    allowTelemetryCollection: true
           
 
 
