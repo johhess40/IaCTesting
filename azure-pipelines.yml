@@ -109,6 +109,12 @@ stages:
                 destinationFolder: '$(System.DefaultWorkingDirectory)'
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
+          
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(System.DefaultWorkingDirectory)'
+              Contents: '**/devplan'
+              TargetFolder: '$(Agent.BuildDirectory)'
 
           - task: TerraformInstaller@0
             inputs:
