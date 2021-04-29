@@ -113,7 +113,7 @@ stages:
           - task: CopyFiles@2
             inputs:
               SourceFolder: '$(System.DefaultWorkingDirectory)'
-              Contents: '**/devplan'
+              Contents: '$(System.DefaultWorkingDirectory)/devplan'
               TargetFolder: '$(Agent.BuildDirectory)'
 
           - task: TerraformInstaller@0
@@ -126,7 +126,7 @@ stages:
               backendType: 'azurerm'
               backendServiceArm: 'TerraformConnect'
               backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
-              backendAzureRmStorageAccountName: 'terrabackendmvp'
+              backendAzureRmStorageAccountName: 'terrabackenddev'
               backendAzureRmContainerName: 'terrabackend'
               backendAzureRmKey: 'landing.terraform.tfstate'
               allowTelemetryCollection: true
