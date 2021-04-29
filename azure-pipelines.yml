@@ -105,14 +105,14 @@ stages:
           
           - task: ExtractFiles@1
             inputs:
-                archiveFilePatterns: '**/*.zip'
+                archiveFilePatterns: '$(System.ArtifactsDirectory)/$(Build.BuildId)-tfplan.zip'
                 destinationFolder: '$(System.DefaultWorkingDirectory)'
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
           
           - task: CopyFiles@2
             inputs:
-              SourceFolder: '$(System.DefaultWorkingDirectory)'
+              SourceFolder: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s'
               Contents: |
                 '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/devplan'
                 '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/variables.tf'
