@@ -52,7 +52,7 @@ steps:
       publishPlanResults: 'webappplan'
   - task: ArchiveFiles@2
     inputs:
-      rootFolderOrFile: '$(Agent.BuildDirectory)/devplan'
+      rootFolderOrFile: '$(Agent.BuildDirectory)'
       includeRootFolder: true
       archiveType: 'zip'
       archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.zip'
