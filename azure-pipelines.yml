@@ -22,11 +22,11 @@ steps:
     inputs:
       secureFile: 'terraform.tfvars'
 
-  # - task: CopyFiles@2
-  #   inputs:
-  #     SourceFolder: '$(mytfvars.secureFilePath)'
-  #     Contents: '**'
-  #     TargetFolder: '$(Agent.BuildDirectory)'
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(mytfvars.secureFilePath)'
+      Contents: '**'
+      TargetFolder: '$(Agent.BuildDirectory)'
   
   - task: TerraformInstaller@0
     inputs:
@@ -46,7 +46,7 @@ steps:
     inputs:
       command: 'plan'
       environmentServiceName: 'TerraformConnect'
-      secureVarsFile: '$(Agent.TempDirectory)/$(mytfvars.secureFilePath)'
+      secureVarsFile: 'dev.tfvars'
       commandOptions: '-out=devplan'
       allowTelemetryCollection: true
       publishPlanResults: 'webappplan'
@@ -63,6 +63,10 @@ steps:
       ArtifactName: '$(Build.BuildId)-tfplan'
       publishLocation: 'Container'
 
+  - task: DeleteFiles@1
+    inputs:
+      SourceFolder: '$(Agent.BuildDirectory)'
+      Contents: '**'
   - task: DownloadBuildArtifacts@0
     inputs:
       buildType: 'current'
