@@ -19,6 +19,12 @@ resource "azurerm_resource_group" "webRG" {
   tags     = var.resource_tags
 }
 
+resource "azurerm_resource_group" "testRG" {
+  name     = "burl-rg-westus2-test"
+  location = azurerm_resource_group.webRG.location
+  tags     = var.resource_tags
+}
+
 resource "azurerm_app_service_plan" "appPlanAlpha" {
   name                = var.app_service_plan.name
   location            = var.resource_groups.webdev.location
