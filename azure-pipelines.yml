@@ -43,7 +43,7 @@ stages:
                 backendType: 'azurerm'
                 backendServiceArm: 'TerraformConnect'
                 backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
-                backendAzureRmStorageAccountName: 'terrabackendmvp'
+                backendAzureRmStorageAccountName: 'terrabackenddev'
                 backendAzureRmContainerName: 'terrabackend'
                 backendAzureRmKey: 'landing.terraform.tfstate'
                 allowTelemetryCollection: true
@@ -57,7 +57,7 @@ stages:
                 secureVarsFile: 'terraform.tfvars'
                 commandOptions: '-out=devplan'
                 allowTelemetryCollection: true
-                publishPlanResults: 'burlingtonplan'
+                publishPlanResults: 'godsplan'
 
             #Here we archive all files in the Build Directory and create zip file
             ##Zip file is what artifact will be made out of
