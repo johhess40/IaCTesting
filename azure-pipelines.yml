@@ -69,7 +69,10 @@ steps:
       Contents: '**'
   - task: DownloadBuildArtifacts@0
     inputs:
-      buildType: 'current'
-      artifactName: '$(Build.BuildId)-tfplan'
+      buildType: 'specific'
+      project: '2a09b058-5b89-4531-ac8a-7f3e2d79a013'
+      pipeline: '4'
+      buildVersionToDownload: 'latest'
       downloadType: 'single'
+      artifactName: '$(Build.BuildId)-tfplan'
       downloadPath: '$(System.ArtifactsDirectory)'
