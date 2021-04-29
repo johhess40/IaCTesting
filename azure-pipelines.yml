@@ -125,17 +125,17 @@ stages:
           #   inputs:
           #     terraformVersion: 'latest'
 
-          # - task: TerraformCLI@0
-          #   inputs:
-          #     command: 'init'
-          #     workingDirectory: '$(System.DefaultWorkingDirectory)'
-          #     backendType: 'azurerm'
-          #     backendServiceArm: 'TerraformConnect'
-          #     backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
-          #     backendAzureRmStorageAccountName: 'terrabackenddev'
-          #     backendAzureRmContainerName: 'terrabackend'
-          #     backendAzureRmKey: 'dev.terraform.tfstate'
-          #     allowTelemetryCollection: true
+          - task: TerraformCLI@0
+            inputs:
+              command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)'
+              backendType: 'azurerm'
+              backendServiceArm: 'TerraformConnect'
+              backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
+              backendAzureRmStorageAccountName: 'terrabackenddev'
+              backendAzureRmContainerName: 'terrabackend'
+              backendAzureRmKey: 'dev.terraform.tfstate'
+              allowTelemetryCollection: true
           # - task: TerraformCLI@0
           #   inputs:
           #       command: 'apply'
