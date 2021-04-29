@@ -113,7 +113,10 @@ stages:
           - task: CopyFiles@2
             inputs:
               SourceFolder: '$(System.DefaultWorkingDirectory)'
-              Contents: '$(System.DefaultWorkingDirectory)/devplan'
+              Contents: |
+                '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/devplan'
+                '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/variables.tf'
+                '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/WebApp.tf'
               TargetFolder: '$(Agent.BuildDirectory)'
 
           - task: TerraformInstaller@0
