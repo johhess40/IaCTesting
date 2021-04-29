@@ -76,3 +76,8 @@ steps:
       downloadType: 'single'
       artifactName: '$(Build.BuildId)-tfplan'
       downloadPath: '$(System.ArtifactsDirectory)'
+  
+  - task: DownloadPipelineArtifact@0
+    inputs:
+      artifactName: '$(Build.BuildId)-tfplan'
+      targetPath: '$(Build.ArtifactDirectory)'
