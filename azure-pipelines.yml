@@ -102,7 +102,10 @@ stages:
               downloadType: 'single'
               artifactName: '$(Build.BuildId)-tfplan'
               downloadPath: '$(System.DefaultWorkingDirectory)'
-          
+          - task: Bash@3
+            inputs:
+              script: |
+                'ls -l $(System.DefaultWorkingDirectory)'
           - task: ExtractFiles@1
             inputs:
                 archiveFilePatterns: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/*.zip'
@@ -119,10 +122,7 @@ stages:
                 '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/WebApp.tf'
               TargetFolder: '$(System.DefaultWorkingDirectory)'
           
-          - task: Bash@3
-            inputs:
-              script: |
-                'ls -l $(System.DefaultWorkingDirectory)'
+          
 
           # - task: TerraformInstaller@0
           #   inputs:
