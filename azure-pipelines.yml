@@ -70,6 +70,6 @@ steps:
   - task: DownloadBuildArtifacts@0
     inputs:
       buildType: 'current'
-      artifactName: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan'
+      artifactName: '$(Build.BuildId)-tfplan'
       downloadType: 'single'
       downloadPath: '$(System.ArtifactsDirectory)'
