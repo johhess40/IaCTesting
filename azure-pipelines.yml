@@ -105,22 +105,22 @@ stages:
           - task: Bash@3
             inputs:
               script: |
-                'ls -l $(System.DefaultWorkingDirectory)'
+                'ls -l'
           - task: ExtractFiles@1
             inputs:
-                archiveFilePatterns: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/*.zip'
+                archiveFilePatterns: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan.zip'
                 destinationFolder: '$(System.DefaultWorkingDirectory)'
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
           
-          - task: CopyFiles@2
-            inputs:
-              SourceFolder: '$(System.DefaultWorkingDirectory)'
-              Contents: |
-                '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/devplan'
-                '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/variables.tf'
-                '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/WebApp.tf'
-              TargetFolder: '$(System.DefaultWorkingDirectory)'
+          # - task: CopyFiles@2
+          #   inputs:
+          #     SourceFolder: '$(System.DefaultWorkingDirectory)'
+          #     Contents: |
+          #       '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/devplan'
+          #       '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/variables.tf'
+          #       '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/WebApp.tf'
+          #     TargetFolder: '$(System.DefaultWorkingDirectory)'
           
           
 
