@@ -118,29 +118,34 @@ stages:
                 '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/variables.tf'
                 '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/WebApp.tf'
               TargetFolder: '$(System.DefaultWorkingDirectory)'
+          
+          - task: Bash@3
+            inputs:
+              script: |
+                'ls -l $(System.DefaultWorkingDirectory)'
 
-          - task: TerraformInstaller@0
-            inputs:
-              terraformVersion: 'latest'
+          # - task: TerraformInstaller@0
+          #   inputs:
+          #     terraformVersion: 'latest'
 
-          - task: TerraformCLI@0
-            inputs:
-              command: 'init'
-              workingDirectory: '$(System.DefaultWorkingDirectory)'
-              backendType: 'azurerm'
-              backendServiceArm: 'TerraformConnect'
-              backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
-              backendAzureRmStorageAccountName: 'terrabackenddev'
-              backendAzureRmContainerName: 'terrabackend'
-              backendAzureRmKey: 'dev.terraform.tfstate'
-              allowTelemetryCollection: true
-          - task: TerraformCLI@0
-            inputs:
-                command: 'apply'
-                workingDirectory: '$(System.DefaultWorkingDirectory)'
-                environmentServiceName: 'TerraformConnect'
-                commandOptions: 'devplan'
-                allowTelemetryCollection: true
+          # - task: TerraformCLI@0
+          #   inputs:
+          #     command: 'init'
+          #     workingDirectory: '$(System.DefaultWorkingDirectory)'
+          #     backendType: 'azurerm'
+          #     backendServiceArm: 'TerraformConnect'
+          #     backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
+          #     backendAzureRmStorageAccountName: 'terrabackenddev'
+          #     backendAzureRmContainerName: 'terrabackend'
+          #     backendAzureRmKey: 'dev.terraform.tfstate'
+          #     allowTelemetryCollection: true
+          # - task: TerraformCLI@0
+          #   inputs:
+          #       command: 'apply'
+          #       workingDirectory: '$(System.DefaultWorkingDirectory)'
+          #       environmentServiceName: 'TerraformConnect'
+          #       commandOptions: 'devplan'
+          #       allowTelemetryCollection: true
           
 
 
