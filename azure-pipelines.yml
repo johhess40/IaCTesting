@@ -46,7 +46,7 @@ steps:
     inputs:
       command: 'plan'
       environmentServiceName: 'TerraformConnect'
-      secureVarsFile: '$(mytfvars.secureFilePath)'
+      secureVarsFile: '$(Agent.TempDirectory)/$(mytfvars.secureFilePath)'
       commandOptions: '-out=devplan'
       allowTelemetryCollection: true
       publishPlanResults: 'webappplan'
