@@ -105,7 +105,7 @@ stages:
           
           - task: ExtractFiles@1
             inputs:
-                archiveFilePatterns: '$(System.DefaultWorkingDirectory)/*.zip'
+                archiveFilePatterns: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/*.zip'
                 destinationFolder: '$(System.DefaultWorkingDirectory)'
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
