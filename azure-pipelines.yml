@@ -46,7 +46,7 @@ steps:
     inputs:
       command: 'plan'
       environmentServiceName: 'TerraformConnect'
-      secureVarsFile: 'dev.tfvars'
+      secureVarsFile: 'terraform.tfvars'
       commandOptions: '-out=devplan'
       allowTelemetryCollection: true
       publishPlanResults: 'webappplan'
