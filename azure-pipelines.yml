@@ -105,7 +105,7 @@ stages:
           
           - task: ExtractFiles@1
             inputs:
-                archiveFilePatterns: '$(Build.BuildId)-tfplan.zip/1/s/devplan'
+                archiveFilePatterns: '**/*.zip'
                 destinationFolder: '$(System.DefaultWorkingDirectory)'
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
