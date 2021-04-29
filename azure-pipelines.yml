@@ -1,69 +1,159 @@
-# This is a pipeline for deploying infrastructure with Terraform
-# This pipeline will also be used to compile code and deploy a web app to resources created
-# by Terraform
-# Keep it secret....keep it safe
+# This is the first iteration of the Burlington pipeline
+# Plan for a multi stage pipeline that automates releases into Dev/Test potentially
+# Going with this approach so that it can be easily replicated in GitHub Actions at some point
 
 trigger:
 - main
 
-pool:
-  vmImage: ubuntu-latest
+stages:
+  - stage: Build_And_Test
+    displayName: Plan And Test Terraform
+    jobs:
+      - job: Plan
+        displayName: Plan And Test Terraform
+        pool: 
+          vmImage: ubuntu-latest
+        steps:
 
-steps:
-  - task: AzureKeyVault@1
-    inputs:
-      azureSubscription: 'TerraformConnect'
-      KeyVaultName: 'webapp-kv-westus2'
-      SecretsFilter: '*'
-      RunAsPreJob: true
+            #Downloading the secure file that holds our env vars
+          - task: DownloadSecureFile@1
+            name: mytfvars
+            inputs:
+              secureFile: 'terraform.tfvars'
+
+            #Copy files from directory storing tfvars to the Build Directory
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(mytfvars.secureFilePath)'
+              Contents: '**'
+              TargetFolder: '$(Agent.BuildDirectory)'
+
+            #Make sure we install the latest verion of terraform on the agent where the build runs
+          - task: TerraformInstaller@0
+            inputs:
+              terraformVersion: 'latest'
+
+            #Conducting "terraform init" and writing out to a plan file
+            ##This will initialize our backend in an Azure Storage Account
+            ###The storage account will allow us to lock our state file and maintain it
+            ####This prevents state from being corrupted/lost 
+          - task: TerraformCLI@0
+            inputs:
+                command: 'init'
+                backendType: 'azurerm'
+                backendServiceArm: 'TerraformConnect'
+                backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
+                backendAzureRmStorageAccountName: 'terrabackenddev'
+                backendAzureRmContainerName: 'terrabackend'
+                backendAzureRmKey: 'dev.terraform.tfstate'
+                allowTelemetryCollection: true
+
+            #Conducting "terraform plan" and writing out to a plan file
+            ##This will allow us to call the plan file from the artifact that we create 
+          - task: TerraformCLI@0
+            inputs:
+                command: 'plan'
+                environmentServiceName: 'TerraformConnect'
+                secureVarsFile: 'terraform.tfvars'
+                commandOptions: '-out=devplan'
+                allowTelemetryCollection: true
+                publishPlanResults: 'godsplan'
+
+            #Here we archive all files in the Build Directory and create zip file
+            ##Zip file is what artifact will be made out of
+          - task: ArchiveFiles@2      
+            inputs:
+              rootFolderOrFile: '$(Agent.BuildDirectory)'
+              includeRootFolder: true
+              archiveType: 'zip'
+              archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.zip'
+              replaceExistingArchive: true
+
+            #Here we publish the artifact for use later on
+            ##By using the var $(Build.BuildId) for versioning we have the ability to roll back deployements
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: '$(Build.BuildId)-tfplan'
+              publishLocation: 'Container'
+            
+            #Finally clean up all files on the agent so that there is no trace of tfvars
+          - task: DeleteFiles@1
+            inputs:
+              SourceFolder: '$(Agent.BuildDirectory)'
+              Contents: '**'
+
+
+    #Second stage for releasing the pipeline artifacts
+  - stage: DeployToDev
+    displayName: Release to test landing Landing Zone
+    dependsOn: Build_And_Test
+    jobs:
+      - deployment: ReleaseDev
+        displayName: Release to test Landing Zone
+        pool: 
+          vmImage: ubuntu-latest
+        environment: 'Dev'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: none
+
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                    buildType: 'current'
+                    downloadType: 'single'
+                    artifactName: '$(Build.BuildId)-tfplan'
+                    downloadPath: '$(System.DefaultWorkingDirectory)' 
+
+          
+
+                - task: ExtractFiles@1
+                  inputs:
+                    archiveFilePatterns: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan/$(Build.BuildId)-tfplan.zip'
+                    destinationFolder: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan'
+                    cleanDestinationFolder: false
+                    overwriteExistingFiles: false
+          
+          # - task: CopyFiles@2
+          #   inputs:
+          #     SourceFolder: '$(System.DefaultWorkingDirectory)'
+          #     Contents: |
+          #       '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/devplan'
+          #       '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/variables.tf'
+          #       '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/WebApp.tf'
+          #     TargetFolder: '$(System.DefaultWorkingDirectory)'
+          
+          
+
+                - task: TerraformInstaller@0
+                  inputs:
+                    terraformVersion: 'latest'
+
+                - task: TerraformCLI@0
+                  inputs:
+                    command: 'init'
+                    workingDirectory: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan/1/s'
+                    backendType: 'azurerm'
+                    backendServiceArm: 'TerraformConnect'
+                    backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
+                    backendAzureRmStorageAccountName: 'terrabackenddev'
+                    backendAzureRmContainerName: 'terrabackend'
+                    backendAzureRmKey: 'dev.terraform.tfstate'
+                    allowTelemetryCollection: true
+              
+              
+                - task: TerraformCLI@0
+                  inputs:
+                    command: 'apply'
+                    workingDirectory: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan/1/s'
+                    environmentServiceName: 'TerraformConnect'
+                    commandOptions: 'devplan'
+                    allowTelemetryCollection: true
+          
+
+
+          
+
   
-  - task: DownloadSecureFile@1
-    name: mytfvars
-    inputs:
-      secureFile: 'terraform.tfvars'
-
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(mytfvars.secureFilePath)'
-      Contents: '**'
-      TargetFolder: '$(Agent.BuildDirectory)'
-  
-  - task: TerraformInstaller@0
-    inputs:
-      terraformVersion: 'latest'
-  - task: TerraformCLI@0
-    inputs:
-        command: 'init'
-        backendType: 'azurerm'
-        backendServiceArm: 'TerraformConnect'
-        backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
-        backendAzureRmStorageAccountName: 'terrabackenddev'
-        backendAzureRmContainerName: 'terrabackend'
-        backendAzureRmKey: 'dev.terraform.tfstate'
-        allowTelemetryCollection: true  
-        
-  - task: TerraformCLI@0
-    inputs:
-      command: 'plan'
-      environmentServiceName: 'TerraformConnect'
-      secureVarsFile: 'terraform.tfvars'
-      commandOptions: '-out=devplan'
-      allowTelemetryCollection: true
-      publishPlanResults: 'webappplan'
-  - task: ArchiveFiles@2
-    inputs:
-      rootFolderOrFile: '$(Agent.BuildDirectory)'
-      includeRootFolder: true
-      archiveType: 'zip'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.zip'
-      replaceExistingArchive: true
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.zip'
-      ArtifactName: '$(Build.BuildId)-tfplan'
-      publishLocation: 'Container'
-
-  - task: DeleteFiles@1
-    inputs:
-      SourceFolder: '$(Agent.BuildDirectory)'
-      Contents: '**'
