@@ -138,13 +138,13 @@ stages:
               allowTelemetryCollection: true
               
               
-          # - task: TerraformCLI@0
-          #   inputs:
-          #       command: 'apply'
-          #       workingDirectory: '$(System.DefaultWorkingDirectory)'
-          #       environmentServiceName: 'TerraformConnect'
-          #       commandOptions: 'devplan'
-          #       allowTelemetryCollection: true
+          - task: TerraformCLI@0
+            inputs:
+                command: 'apply'
+                workingDirectory: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan/1/s'
+                environmentServiceName: 'TerraformConnect'
+                commandOptions: 'devplan'
+                allowTelemetryCollection: true
           
 
 
