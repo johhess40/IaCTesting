@@ -60,7 +60,7 @@ steps:
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'tfplan'
+      ArtifactName: '$(Build.BuildId)-tfplan'
       publishLocation: 'Container'
 
   - task: DeleteFiles@1
@@ -71,6 +71,6 @@ steps:
     inputs:
       buildType: 'current'
       downloadType: 'single'
-      artifactName: 'tfplan'
+      artifactName: '$(Build.BuildId)-tfplan'
       downloadPath: '$(System.ArtifactsDirectory)'
   
