@@ -18,7 +18,7 @@ stages:
             #Downloading the secure file that holds our env vars
           - task: DownloadSecureFile@1
             inputs:
-              secureFile: 'dev.tfvars'
+              secureFile: 'terraform.tfvars'
 
             #Copy files from directory storing tfvars to the Build Directory
           - task: CopyFiles@2
@@ -53,7 +53,7 @@ stages:
             inputs:
                 command: 'plan'
                 environmentServiceName: 'TerraformConnect'
-                secureVarsFile: 'dev.tfvars'
+                secureVarsFile: 'terraform.tfvars'
                 commandOptions: '-out=devplan'
                 allowTelemetryCollection: true
                 publishPlanResults: 'burlingtonplan'
