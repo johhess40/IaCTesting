@@ -102,10 +102,7 @@ stages:
               downloadType: 'single'
               artifactName: '$(Build.BuildId)-tfplan'
               downloadPath: '$(System.DefaultWorkingDirectory)'
-          - task: Bash@3
-            inputs:
-              script: |
-                'ls -l'
+
           - task: ExtractFiles@1
             inputs:
                 archiveFilePatterns: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan.zip'
