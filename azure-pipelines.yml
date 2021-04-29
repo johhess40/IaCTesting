@@ -107,7 +107,7 @@ stages:
             inputs:
                 archiveFilePatterns: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan/$(Build.BuildId)-tfplan.zip'
                 destinationFolder: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)-tfplan'
-                cleanDestinationFolder: true
+                cleanDestinationFolder: false
                 overwriteExistingFiles: false
           
           # - task: CopyFiles@2
