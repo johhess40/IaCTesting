@@ -45,7 +45,7 @@ stages:
                 backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
                 backendAzureRmStorageAccountName: 'terrabackenddev'
                 backendAzureRmContainerName: 'terrabackend'
-                backendAzureRmKey: 'landing.terraform.tfstate'
+                backendAzureRmKey: 'dev.terraform.tfstate'
                 allowTelemetryCollection: true
 
             #Conducting "terraform plan" and writing out to a plan file
