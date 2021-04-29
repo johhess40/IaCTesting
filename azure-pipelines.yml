@@ -110,14 +110,14 @@ stages:
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
           
-          # - task: CopyFiles@2
-          #   inputs:
-          #     SourceFolder: '$(System.DefaultWorkingDirectory)'
-          #     Contents: |
-          #       '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/devplan'
-          #       '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/variables.tf'
-          #       '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/WebApp.tf'
-          #     TargetFolder: '$(Agent.BuildDirectory)'
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(System.DefaultWorkingDirectory)'
+              Contents: |
+                '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/devplan'
+                '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/variables.tf'
+                '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s/WebApp.tf'
+              TargetFolder: '$(System.DefaultWorkingDirectory)'
 
           - task: TerraformInstaller@0
             inputs:
@@ -126,7 +126,7 @@ stages:
           - task: TerraformCLI@0
             inputs:
               command: 'init'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
               backendType: 'azurerm'
               backendServiceArm: 'TerraformConnect'
               backendAzureRmResourceGroupName: 'webapp-terraconcept-westus2'
