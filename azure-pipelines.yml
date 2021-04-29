@@ -87,6 +87,7 @@ stages:
     #Second stage for releasing the pipeline artifacts
   - stage: DeployToDev
     displayName: Release to test landing Landing Zone
+    dependsOn: Build_And_Test
     jobs:
       - job: ReleaseDev
         displayName: Release to test Landing Zone
