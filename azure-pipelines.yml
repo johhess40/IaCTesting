@@ -17,6 +17,7 @@ stages:
 
             #Downloading the secure file that holds our env vars
           - task: DownloadSecureFile@1
+            name: mytfvars
             inputs:
               secureFile: 'terraform.tfvars'
 
