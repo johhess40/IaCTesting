@@ -72,4 +72,4 @@ steps:
       buildType: 'current'
       artifactName: '$(Build.BuildId)-tfplan'
       downloadType: 'single'
-      downloadPath: '$(System.ArtifactsDirectory)'
+      downloadPath: '$(System.ArtifactsStagingDirectory)'
