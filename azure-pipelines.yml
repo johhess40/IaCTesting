@@ -101,11 +101,11 @@ stages:
               buildType: 'current'
               downloadType: 'single'
               artifactName: '$(Build.BuildId)-tfplan'
-              downloadPath: '$(System.ArtifactsDirectory)'
+              downloadPath: '$(System.DefaultWorkingDirectory)'
           
           - task: ExtractFiles@1
             inputs:
-                archiveFilePatterns: '$(System.ArtifactsDirectory)/$(Build.BuildId)-tfplan.zip'
+                archiveFilePatterns: '$(System.DefaultWorkingDirectory)/*.zip'
                 destinationFolder: '$(System.DefaultWorkingDirectory)'
                 cleanDestinationFolder: true
                 overwriteExistingFiles: false
