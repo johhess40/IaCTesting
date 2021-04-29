@@ -137,7 +137,7 @@ stages:
           - task: TerraformCLI@0
             inputs:
                 command: 'apply'
-                workingDirectory: '$(System.DefaultWorkingDirectory)/$(Build.BuildId)/1/s'
+                workingDirectory: '$(System.DefaultWorkingDirectory)'
                 environmentServiceName: 'TerraformConnect'
                 commandOptions: 'devplan'
                 allowTelemetryCollection: true
