@@ -21,7 +21,7 @@ var varsFiles = map[string]string{
 	"varsProd": "webappprod.tfvars",
 }
 
-func TestBurlington(t *testing.T) {
+func TestDeployment(t *testing.T) {
 
 	stdOut := os.Stdout
 
